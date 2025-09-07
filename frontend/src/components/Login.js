@@ -73,7 +73,7 @@ const Login = ({ onLogin }) => {
       <div className="login-wrapper">
         <div className="login-header">
           <div className="login-logo">
-            <span>NC</span>
+            <span>N</span>
           </div>
           <h2>N-Connect</h2>
           <p></p>
