@@ -76,7 +76,7 @@ const Login = ({ onLogin }) => {
             <span>NC</span>
           </div>
           <h2>N-Connect</h2>
-          <p>Society Management System</p>
+          <p></p>
         </div>
 
         <div className="login-card">
