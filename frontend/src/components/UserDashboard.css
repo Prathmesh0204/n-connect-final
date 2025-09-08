@@ -169,10 +169,15 @@
   border-radius: 50%;
   transition: var(--transition);
   position: relative;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .bell-btn:hover {
   background: rgba(99, 102, 241, 0.1);
+  color: var(--primary);
   transform: scale(1.1);
 }
 
@@ -200,6 +205,9 @@
   font-weight: 600;
   font-size: 0.875rem;
   box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .logout-btn {
@@ -211,6 +219,9 @@
   font-weight: 600;
   cursor: pointer;
   transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .logout-btn:hover {
@@ -224,6 +235,7 @@
   display: flex;
   padding-top: var(--header-height);
   min-height: 100vh;
+  padding-bottom: 60px; /* Space for footer */
 }
 
 /* Sidebar */
@@ -266,6 +278,7 @@
   font-weight: 500;
   text-align: left;
   position: relative;
+  width: 100%;
 }
 
 .sidebar-item:hover {
@@ -283,6 +296,8 @@
 .sidebar-icon {
   font-size: 1.25rem;
   transition: var(--transition);
+  display: flex;
+  align-items: center;
 }
 
 .sidebar-item.active .sidebar-icon {
@@ -319,7 +334,7 @@
   margin-bottom: 2rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.75rem; /* Increased gap */
   background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -476,6 +491,7 @@
   cursor: pointer;
   transition: var(--transition);
   text-align: center;
+  width: 100%;
 }
 
 .quick-action-btn:hover {
@@ -540,6 +556,9 @@
   font-size: 1.25rem;
   color: var(--text);
   margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .flat-details p {
@@ -596,6 +615,7 @@
   transition: var(--transition);
   background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(10px);
+  width: 100%;
 }
 
 .form-group input:focus,
@@ -624,6 +644,7 @@
   justify-content: center;
   gap: 0.5rem;
   box-shadow: var(--shadow);
+  width: 100%;
 }
 
 .primary-btn:hover:not(:disabled) {
@@ -664,17 +685,20 @@
   display: inline-block;
 }
 
-.status-badge.active {
+.status-badge.active,
+.status-badge.approved {
   background: rgba(16, 185, 129, 0.1);
   color: var(--success);
 }
 
-.status-badge.inactive {
+.status-badge.inactive,
+.status-badge.rejected {
   background: rgba(107, 114, 128, 0.1);
   color: var(--text-light);
 }
 
-.status-badge.pending {
+.status-badge.pending,
+.status-badge.overdue {
   background: rgba(245, 158, 11, 0.1);
   color: var(--warning);
 }
@@ -732,7 +756,7 @@
 }
 
 /* Action Buttons */
-.action-btn {
+.pay-btn {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: var(--radius);
@@ -742,9 +766,6 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-}
-
-.pay-btn {
   background: rgba(16, 185, 129, 0.1);
   color: var(--success);
   border: 1px solid rgba(16, 185, 129, 0.2);
@@ -771,6 +792,7 @@
   font-size: 3rem;
   margin-bottom: 1rem;
   opacity: 0.5;
+  color: var(--primary);
 }
 
 .empty-state p {
@@ -783,7 +805,7 @@
   font-size: 0.875rem;
 }
 
-/* Complaints, Notifications, Requests Lists */
+/* Universal Lists */
 .complaints-list,
 .notifications-list,
 .requests-list,
@@ -877,14 +899,11 @@
   align-items: flex-end;
 }
 
-.complaint-actions,
-.request-actions,
 .bill-actions {
   display: flex;
+  flex-direction: column;
   gap: 0.75rem;
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border);
+  align-items: flex-end;
 }
 
 .admin-response,
@@ -925,6 +944,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-size: 0.875rem;
 }
 
 .status-message.paid {
@@ -1057,6 +1077,42 @@
   align-items: center;
 }
 
+/* +++ NEW STYLES +++ */
+/* Footer Styles */
+.dashboard-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--glass-border);
+  z-index: 50;
+  padding: 0 2rem;
+  margin-left: var(--sidebar-width);
+}
+
+.footer-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  font-size: 0.875rem;
+  color: var(--text-light);
+}
+
+/* Icon Adjustments for React Icons (SVG) */
+.sidebar-item svg,
+.quick-action-btn svg,
+.user-badge svg,
+.logout-btn svg,
+.primary-btn svg,
+.pay-btn svg,
+.page-title svg {
+  vertical-align: middle; /* Helps with alignment */
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   :root {
@@ -1069,6 +1125,7 @@
     transform: translateX(-100%);
     transition: transform 0.3s ease;
     width: 280px;
+    z-index: 110;
   }
 
   .user-sidebar.open {
@@ -1088,14 +1145,8 @@
     padding: 0 1rem;
   }
 
-  .stats-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-  }
-
+  .stats-grid,
+  .dashboard-grid,
   .form-grid {
     grid-template-columns: 1fr;
   }
@@ -1106,20 +1157,26 @@
   .bill-header {
     flex-direction: column;
     gap: 1rem;
+    align-items: stretch;
   }
 
+  .bill-actions,
   .complaint-badges,
   .notification-badges {
     flex-direction: row;
-    align-items: center;
+    align-self: flex-start;
+  }
+
+  .dashboard-footer {
+    margin-left: 0;
   }
 
   .mobile-menu-toggle {
-    display: block;
+    display: block; /* Assuming you will add a toggle button */
     position: fixed;
     top: 1.5rem;
     left: 1rem;
-    z-index: 110;
+    z-index: 120;
     background: var(--glass-bg);
     backdrop-filter: blur(10px);
     border: 1px solid var(--glass-border);
@@ -1131,7 +1188,6 @@
     justify-content: center;
     font-size: 1.25rem;
     cursor: pointer;
-    z-index: 110;
   }
 }
 
@@ -1141,13 +1197,20 @@
   }
 
   .header-right {
-    flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.75rem;
   }
 
-  .complaint-actions,
-  .request-actions {
-    flex-direction: column;
+  .header-info h1 {
+    font-size: 1.25rem;
+  }
+
+  .user-badge {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  .logout-btn {
+    padding: 0.4rem 0.8rem;
   }
 
   .complaint-meta,
@@ -1156,6 +1219,7 @@
   .bill-meta {
     flex-direction: column;
     gap: 0.5rem;
+    align-items: flex-start;
   }
 
   .profile-header {
@@ -1165,6 +1229,13 @@
 
   .page-title {
     font-size: 1.75rem;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.25rem;
+    font-size: 0.75rem;
   }
 }
 

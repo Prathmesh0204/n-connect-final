@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import API_CONFIG from '../config/apiConfig';
+import {
+  FaChartBar, FaHome, FaClipboardList, FaMoneyBillAlt, FaCar,
+  FaVideo, FaBell, FaComments, FaUser, FaSignOutAlt, FaBuilding,
+  FaBed, FaBath, FaRulerCombined, FaUserCircle, FaUsers,
+  FaExclamationCircle, FaClock, FaCheckCircle, FaTimesCircle, FaLink,
+  FaSearch, FaPaperPlane, FaPlusCircle, FaCreditCard, FaEye, FaRocket,
+  FaEdit, FaCog, FaChevronRight, FaInfoCircle, FaPhone, FaEnvelope,
+  FaIdCard, FaShieldAlt, FaCaretDown, FaTag, FaCalendarAlt
+} from 'react-icons/fa';
 import './UserDashboard.css';
 
 const UserDashboard = ({ token, username, userStatus, onLogout }) => {
@@ -19,7 +28,7 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
     description: '',
     priority: 'medium',
     category: 'maintenance',
-    flat_id: '' // Added flat_id
+    flat_id: ''
   });
 
   const [vehicleForm, setVehicleForm] = useState({
@@ -33,7 +42,7 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
     reason: '',
     requested_date: '',
     duration_hours: 1,
-    flat_id: '' // Added flat_id
+    flat_id: ''
   });
 
   const [forumPostForm, setForumPostForm] = useState({
@@ -193,7 +202,6 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
     }
   };
 
-  // ✅ FIXED: Using FormData and correct flat_id
   const handleSubmitComplaint = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -230,7 +238,6 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
     }
   };
 
-  // ✅ FIXED: Using FormData
   const handleRegisterVehicle = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -266,7 +273,6 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
     }
   };
 
-  // ✅ FIXED: Using FormData and correct flat_id
   const handleRequestCameraAccess = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -302,7 +308,6 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
     }
   };
 
-  // Not file related, JSON is fine
   const handleCreateForumPost = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -329,7 +334,6 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
     }
   };
 
-  // ✅ FIXED: Using FormData for profile update with potential avatar
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -341,10 +345,6 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
     formData.append('phone_number', profileForm.phone);
     formData.append('emergency_contact', profileForm.emergency_contact);
     formData.append('emergency_contact_name', profileForm.emergency_contact_name);
-    // Add logic here to handle file upload for avatar if you have one
-    // if (profileForm.avatarFile) {
-    //   formData.append('avatar', profileForm.avatarFile);
-    // }
 
     const headers = API_CONFIG.getHeaders(token);
     delete headers['Content-Type'];
@@ -369,14 +369,11 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
     }
   };
 
-  // ✅ FIXED: Using FormData for paying bill with potential screenshot
   const handlePayBill = async (billId) => {
     setLoading(true);
     const formData = new FormData();
     formData.append('status', 'paid');
     formData.append('payment_date', new Date().toISOString());
-    // Add logic here to handle payment screenshot upload if you have it
-    // formData.append('payment_screenshot', screenshotFile);
 
     const headers = API_CONFIG.getHeaders(token);
     delete headers['Content-Type'];
@@ -401,7 +398,6 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
     }
   };
 
-  // Not file related, JSON is fine
   const markNotificationAsRead = async (notificationId) => {
     try {
       setNotifications(notifications.map(notification =>
@@ -473,7 +469,7 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
                 onClick={() => setActiveTab('notifications')}
                 className="bell-btn"
               >
-                <span>🔔</span>
+                <FaBell />
                 {stats.unread_notifications > 0 && (
                   <span className="notification-badge">
                     {stats.unread_notifications}
@@ -482,10 +478,10 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
               </button>
             </div>
             <span className="user-badge">
-              {username}
+              <FaUserCircle /> {username}
             </span>
             <button onClick={onLogout} className="logout-btn">
-              Logout
+              <FaSignOutAlt /> Logout
             </button>
           </div>
         </div>
@@ -497,15 +493,15 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
           <div className="sidebar-content">
             <div className="sidebar-menu">
               {[
-                { id: 'dashboard', label: 'Dashboard', icon: '📊' },
-                { id: 'flats', label: 'My Flats', icon: '🏠' },
-                { id: 'complaints', label: 'Complaints', icon: '📝' },
-                { id: 'bills', label: 'Bills & Payments', icon: '💰' },
-                { id: 'vehicles', label: 'My Vehicles', icon: '🚗' },
-                { id: 'camera-requests', label: 'Camera Access', icon: '📹' },
-                { id: 'notifications', label: 'Notifications', icon: '📢' },
-                { id: 'forum', label: 'Community Forum', icon: '💬' },
-                { id: 'profile', label: 'My Profile', icon: '👤' }
+                { id: 'dashboard', label: 'Dashboard', icon: <FaChartBar /> },
+                { id: 'flats', label: 'My Flats', icon: <FaHome /> },
+                { id: 'complaints', label: 'Complaints', icon: <FaClipboardList /> },
+                { id: 'bills', label: 'Bills & Payments', icon: <FaMoneyBillAlt /> },
+                { id: 'vehicles', label: 'My Vehicles', icon: <FaCar /> },
+                { id: 'camera-requests', label: 'Camera Access', icon: <FaVideo /> },
+                { id: 'notifications', label: 'Notifications', icon: <FaBell /> },
+                { id: 'forum', label: 'Community Forum', icon: <FaComments /> },
+                { id: 'profile', label: 'My Profile', icon: <FaUser /> }
               ].map(tab => (
                 <button
                   key={tab.id}
@@ -530,7 +526,7 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
           {/* Dashboard Tab */}
           {activeTab === 'dashboard' && (
             <div className="dashboard-content">
-              <h2 className="page-title">Dashboard Overview</h2>
+              <h2 className="page-title"><FaChartBar /> Dashboard Overview</h2>
 
               {/* Quick Stats */}
               <div className="stats-grid">
@@ -542,7 +538,7 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
                       <p className="stat-sub">{stats.pending_complaints} pending</p>
                     </div>
                     <div className="stat-icon orange">
-                      <span>📝</span>
+                      <FaClipboardList />
                     </div>
                   </div>
                 </div>
@@ -555,7 +551,7 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
                       <p className="stat-sub">{stats.unpaid_bills} unpaid</p>
                     </div>
                     <div className="stat-icon red">
-                      <span>💰</span>
+                      <FaMoneyBillAlt />
                     </div>
                   </div>
                 </div>
@@ -568,7 +564,7 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
                       <p className="stat-sub">Registered</p>
                     </div>
                     <div className="stat-icon blue">
-                      <span>🚗</span>
+                      <FaCar />
                     </div>
                   </div>
                 </div>
@@ -577,37 +573,37 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
               {/* Quick Actions & Recent Notifications */}
               <div className="dashboard-grid">
                 <div className="dashboard-card">
-                  <h3 className="card-title">🚀 Quick Actions</h3>
+                  <h3 className="card-title"><FaRocket /> Quick Actions</h3>
                   <div className="quick-actions">
                     <button
                       onClick={() => setActiveTab('complaints')}
                       className="quick-action-btn"
                     >
-                      <span>📝 Submit New Complaint</span>
+                      <span><FaClipboardList /> Submit New Complaint</span>
                     </button>
                     <button
                       onClick={() => setActiveTab('vehicles')}
                       className="quick-action-btn"
                     >
-                      <span>🚗 Register Vehicle</span>
+                      <span><FaCar /> Register Vehicle</span>
                     </button>
                     <button
                       onClick={() => setActiveTab('bills')}
                       className="quick-action-btn"
                     >
-                      <span>💳 Pay Bills</span>
+                      <span><FaCreditCard /> Pay Bills</span>
                     </button>
                     <button
                       onClick={() => setActiveTab('camera-requests')}
                       className="quick-action-btn"
                     >
-                      <span>📹 Request Camera Access</span>
+                      <span><FaVideo /> Request Camera Access</span>
                     </button>
                   </div>
                 </div>
 
                 <div className="dashboard-card">
-                  <h3 className="card-title">📢 Recent Notifications</h3>
+                  <h3 className="card-title"><FaBell /> Recent Notifications</h3>
                   <div className="recent-notifications">
                     {notifications.slice(0, 3).map(notification => (
                       <div key={notification.id} className="notification-item">
@@ -627,21 +623,21 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
 
               {/* My Flats Overview */}
               <div className="dashboard-card">
-                <h3 className="card-title">🏠 My Flats</h3>
+                <h3 className="card-title"><FaHome /> My Flats</h3>
                 {flats.length === 0 ? (
                   <p className="no-data">No flats assigned to you</p>
                 ) : (
                   <div className="flats-grid">
                     {flats.map(flat => (
                       <div key={flat.id} className="flat-card">
-                        <h4>🏠 Flat {flat.flat_number}</h4>
+                        <h4><FaBuilding /> Flat {flat.flat_number}</h4>
                         <div className="flat-details">
-                          {flat.building && <p>🏢 {flat.building}</p>}
-                          {flat.floor && <p>📍 Floor {flat.floor}</p>}
+                          {flat.building && <p><FaBuilding /> {flat.building}</p>}
+                          {flat.floor && <p><FaInfoCircle /> Floor {flat.floor}</p>}
                           {flat.bedrooms && flat.bathrooms && (
-                            <p>🛏️ {flat.bedrooms} BHK, {flat.bathrooms} Bath</p>
+                            <p><FaBed /> {flat.bedrooms} BHK, <FaBath /> {flat.bathrooms} Bath</p>
                           )}
-                          {flat.area_sqft && <p>📐 {flat.area_sqft} sq ft</p>}
+                          {flat.area_sqft && <p><FaRulerCombined /> {flat.area_sqft} sq ft</p>}
                         </div>
                       </div>
                     ))}
@@ -654,13 +650,13 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
           {/* My Flats Tab */}
           {activeTab === 'flats' && (
             <div className="flats-content">
-              <h2 className="page-title">🏠 My Flats</h2>
+              <h2 className="page-title"><FaHome /> My Flats</h2>
 
               <div className="content-card">
                 <h3 className="card-title">Assigned Flats ({flats.length})</h3>
                 {flats.length === 0 ? (
                   <div className="empty-state">
-                    <div className="empty-icon">🏠</div>
+                    <div className="empty-icon"><FaHome /></div>
                     <p>No flats assigned to you</p>
                     <span>Contact admin for flat assignment</span>
                   </div>
@@ -678,46 +674,45 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
                         <div className="flat-info">
                           {flat.building && (
                             <div className="info-item">
-                              <span>🏢</span>
+                              <span><FaBuilding /></span>
                               <span>Building: {flat.building}</span>
                             </div>
                           )}
                           {flat.floor && (
                             <div className="info-item">
-                              <span>📍</span>
+                              <span><FaInfoCircle /></span>
                               <span>Floor: {flat.floor}</span>
                             </div>
                           )}
                           {flat.bedrooms && flat.bathrooms && (
                             <div className="info-item">
-                              <span>🛏️</span>
+                              <span><FaBed /></span>
                               <span>{flat.bedrooms} Bedrooms, {flat.bathrooms} Bathrooms</span>
                             </div>
                           )}
                           {flat.area_sqft && (
                             <div className="info-item">
-                              <span>📐</span>
+                              <span><FaRulerCombined /></span>
                               <span>Area: {flat.area_sqft} sq ft</span>
                             </div>
                           )}
                           {flat.monthly_rent && (
                             <div className="info-item">
-                              <span>💰</span>
+                              <span><FaMoneyBillAlt /></span>
                               <span>Rent: ₹{flat.monthly_rent}/month</span>
                             </div>
                           )}
 
-                          {/* Ownership Information */}
                           <div className="ownership-info">
                             {flat.owner && (
                               <div className="info-item owner">
-                                <span>👤</span>
+                                <span><FaUserCircle /></span>
                                 <span>Owner: {flat.owner.username}</span>
                               </div>
                             )}
                             {flat.tenants && flat.tenants.length > 0 && (
                               <div className="info-item tenants">
-                                <span>🏠</span>
+                                <span><FaUsers /></span>
                                 <span>Tenants: {flat.tenants.map(t => t.username).join(', ')}</span>
                               </div>
                             )}
@@ -734,13 +729,11 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
           {/* Complaints Tab */}
           {activeTab === 'complaints' && (
             <div className="complaints-content">
-              <h2 className="page-title">📝 My Complaints</h2>
+              <h2 className="page-title"><FaClipboardList /> My Complaints</h2>
 
-              {/* Submit New Complaint */}
               <div className="content-card">
                 <h3 className="card-title">Submit New Complaint</h3>
                 <form onSubmit={handleSubmitComplaint} className="form-grid">
-                  {/* ✅ FIX: Added Select Flat Dropdown */}
                   <div className="form-group">
                     <label>Select Flat</label>
                     <select
@@ -809,13 +802,12 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
                       disabled={loading || !complaintForm.flat_id}
                       className="primary-btn"
                     >
-                      {loading ? 'Submitting...' : 'Submit Complaint'}
+                      {loading ? 'Submitting...' : <><FaPaperPlane /> Submit Complaint</>}
                     </button>
                   </div>
                 </form>
               </div>
 
-              {/* Search Complaints */}
               <div className="content-card">
                 <input
                   type="text"
@@ -826,12 +818,11 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
                 />
               </div>
 
-              {/* Complaints List */}
               <div className="content-card">
                 <h3 className="card-title">My Complaints ({filteredComplaints.length})</h3>
                 {filteredComplaints.length === 0 ? (
                   <div className="empty-state">
-                    <div className="empty-icon">📝</div>
+                    <div className="empty-icon"><FaClipboardList /></div>
                     <p>No complaints found</p>
                     <span>Submit your first complaint above</span>
                   </div>
@@ -844,10 +835,10 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
                             <h4>{complaint.title}</h4>
                             <p>{complaint.description}</p>
                             <div className="complaint-meta">
-                              <span>📁 {complaint.category}</span>
-                              <span>📅 {new Date(complaint.created_at).toLocaleDateString()}</span>
+                              <span><FaTag /> {complaint.category}</span>
+                              <span><FaCalendarAlt /> {new Date(complaint.created_at).toLocaleDateString()}</span>
                               {complaint.resolved_at && (
-                                <span>✅ Resolved: {new Date(complaint.resolved_at).toLocaleDateString()}</span>
+                                <span><FaCheckCircle /> Resolved: {new Date(complaint.resolved_at).toLocaleDateString()}</span>
                               )}
                             </div>
                           </div>
@@ -876,9 +867,8 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
           {/* Bills & Payments Tab */}
           {activeTab === 'bills' && (
             <div className="bills-content">
-              <h2 className="page-title">💰 Bills & Payments</h2>
+              <h2 className="page-title"><FaMoneyBillAlt /> Bills & Payments</h2>
 
-              {/* Search Bills */}
               <div className="content-card">
                 <input
                   type="text"
@@ -889,12 +879,11 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
                 />
               </div>
 
-              {/* Bills List */}
               <div className="content-card">
                 <h3 className="card-title">All Bills ({filteredBills.length})</h3>
                 {filteredBills.length === 0 ? (
                   <div className="empty-state">
-                    <div className="empty-icon">💰</div>
+                    <div className="empty-icon"><FaMoneyBillAlt /></div>
                     <p>No bills found</p>
                     <span>Bills will appear here when generated by admin</span>
                   </div>
@@ -909,11 +898,11 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
                             </h4>
                             <p className="bill-amount">₹{bill.amount}</p>
                             <div className="bill-meta">
-                              <span>🏠 Flat {bill.flat.flat_number}</span>
-                              <span>📅 Period: {String(bill.bill_month).padStart(2, '0')}/{bill.bill_year}</span>
-                              <span>⏰ Due: {new Date(bill.due_date).toLocaleDateString()}</span>
+                              <span><FaHome /> Flat {bill.flat.flat_number}</span>
+                              <span><FaCalendarAlt /> Period: {String(bill.bill_month).padStart(2, '0')}/{bill.bill_year}</span>
+                              <span><FaClock /> Due: {new Date(bill.due_date).toLocaleDateString()}</span>
                               {bill.payment_date && (
-                                <span>✅ Paid: {new Date(bill.payment_date).toLocaleDateString()}</span>
+                                <span><FaCheckCircle /> Paid: {new Date(bill.payment_date).toLocaleDateString()}</span>
                               )}
                             </div>
                           </div>
@@ -927,27 +916,26 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
                                 className="pay-btn"
                                 disabled={loading}
                               >
-                                {loading ? 'Processing...' : '💳 Pay Now'}
+                                {loading ? 'Processing...' : <><FaCreditCard /> Pay Now</>}
                               </button>
                             )}
                           </div>
                         </div>
 
-                        {/* Payment Status Indicator */}
                         <div className="bill-status-indicator">
                           {bill.status === 'paid' ? (
                             <div className="status-message paid">
-                              <span>✅</span>
+                              <span><FaCheckCircle /></span>
                               <span>Payment completed on {new Date(bill.payment_date).toLocaleDateString()}</span>
                             </div>
                           ) : bill.status === 'overdue' ? (
                             <div className="status-message overdue">
-                              <span>⚠️</span>
+                              <span><FaExclamationCircle /></span>
                               <span>Payment overdue - please pay immediately</span>
                             </div>
                           ) : (
                             <div className="status-message pending">
-                              <span>⏳</span>
+                              <span><FaClock /></span>
                               <span>Payment pending - due by {new Date(bill.due_date).toLocaleDateString()}</span>
                             </div>
                           )}
@@ -963,9 +951,8 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
           {/* My Vehicles Tab */}
           {activeTab === 'vehicles' && (
             <div className="vehicles-content">
-              <h2 className="page-title">🚗 My Vehicles</h2>
+              <h2 className="page-title"><FaCar /> My Vehicles</h2>
 
-              {/* Register New Vehicle */}
               <div className="content-card">
                 <h3 className="card-title">Register New Vehicle</h3>
                 <form onSubmit={handleRegisterVehicle} className="form-grid">
@@ -1023,7 +1010,6 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
                 </form>
               </div>
 
-              {/* Search Vehicles */}
               <div className="content-card">
                 <input
                   type="text"
@@ -1034,12 +1020,11 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
                 />
               </div>
 
-              {/* Vehicles List */}
               <div className="content-card">
                 <h3 className="card-title">Registered Vehicles ({filteredVehicles.length})</h3>
                 {filteredVehicles.length === 0 ? (
                   <div className="empty-state">
-                    <div className="empty-icon">🚗</div>
+                    <div className="empty-icon"><FaCar /></div>
                     <p>No vehicles registered</p>
                     <span>Register your first vehicle above</span>
                   </div>
@@ -1055,23 +1040,23 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
                         </div>
                         <div className="vehicle-details">
                           <div className="detail-item">
-                            <span>🚗</span>
+                            <span><FaCar /></span>
                             <span>{vehicle.vehicle_type.charAt(0).toUpperCase() + vehicle.vehicle_type.slice(1)}</span>
                           </div>
                           {vehicle.brand && (
                             <div className="detail-item">
-                              <span>🏭</span>
+                              <span><FaCog /></span>
                               <span>{vehicle.brand}</span>
                             </div>
                           )}
                           {vehicle.color && (
                             <div className="detail-item">
-                              <span>🎨</span>
+                              <span><FaTag /></span>
                               <span>{vehicle.color}</span>
                             </div>
                           )}
                           <div className="detail-item">
-                            <span>📅</span>
+                            <span><FaCalendarAlt /></span>
                             <span>Registered: {new Date(vehicle.created_at).toLocaleDateString()}</span>
                           </div>
                         </div>
@@ -1086,13 +1071,11 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
           {/* Camera Access Requests Tab */}
           {activeTab === 'camera-requests' && (
             <div className="camera-requests-content">
-              <h2 className="page-title">📹 Camera Access Requests</h2>
+              <h2 className="page-title"><FaVideo /> Camera Access Requests</h2>
 
-              {/* Submit New Request */}
               <div className="content-card">
                 <h3 className="card-title">Request Camera Access</h3>
                 <form onSubmit={handleRequestCameraAccess} className="form-grid">
-                  {/* ✅ FIX: Added Select Flat Dropdown */}
                   <div className="form-group">
                     <label>Select Flat for Request</label>
                     <select
@@ -1152,12 +1135,11 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
                 </form>
               </div>
 
-              {/* Requests List */}
               <div className="content-card">
                 <h3 className="card-title">My Requests ({cameraRequests.length})</h3>
                 {cameraRequests.length === 0 ? (
                   <div className="empty-state">
-                    <div className="empty-icon">📹</div>
+                    <div className="empty-icon"><FaVideo /></div>
                     <p>No camera access requests</p>
                     <span>Submit your first request above</span>
                   </div>
@@ -1170,9 +1152,9 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
                             <h4>Camera Access for Flat {request.flat.flat_number}</h4>
                             <p>{request.reason}</p>
                             <div className="request-meta">
-                              <span>📅 Date: {new Date(request.requested_date).toLocaleDateString()}</span>
-                              <span>⏰ Duration: {request.duration_hours} hours</span>
-                              <span>📝 Requested: {new Date(request.requested_at).toLocaleDateString()}</span>
+                              <span><FaCalendarAlt /> Date: {new Date(request.requested_date).toLocaleDateString()}</span>
+                              <span><FaClock /> Duration: {request.duration_hours} hours</span>
+                              <span><FaPaperPlane /> Requested: {new Date(request.requested_at).toLocaleDateString()}</span>
                             </div>
                           </div>
                           <span className={`status-badge ${request.status}`}>
@@ -1182,7 +1164,7 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
                         {request.status === 'approved' && request.access_link && (
                           <div className="access-link-section">
                             <p className="access-approved">
-                              <strong>✅ Request Approved!</strong>
+                              <strong><FaCheckCircle /> Request Approved!</strong>
                             </p>
                             <a
                               href={request.access_link}
@@ -1190,13 +1172,13 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
                               rel="noopener noreferrer"
                               className="access-link"
                             >
-                              🔗 Access Camera Feed
+                              <FaLink /> Access Camera Feed
                             </a>
                           </div>
                         )}
                         {request.status === 'rejected' && (
                           <div className="rejection-message">
-                            <p><strong>❌ Request Rejected</strong></p>
+                            <p><strong><FaTimesCircle /> Request Rejected</strong></p>
                             <p>Please contact admin for more information.</p>
                           </div>
                         )}
@@ -1211,9 +1193,8 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
           {/* Notifications Tab */}
           {activeTab === 'notifications' && (
             <div className="notifications-content">
-              <h2 className="page-title">📢 Notifications</h2>
+              <h2 className="page-title"><FaBell /> Notifications</h2>
 
-              {/* Search Notifications */}
               <div className="content-card">
                 <input
                   type="text"
@@ -1224,12 +1205,11 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
                 />
               </div>
 
-              {/* Notifications List */}
               <div className="content-card">
                 <h3 className="card-title">All Notifications ({filteredNotifications.length})</h3>
                 {filteredNotifications.length === 0 ? (
                   <div className="empty-state">
-                    <div className="empty-icon">📢</div>
+                    <div className="empty-icon"><FaBell /></div>
                     <p>No notifications found</p>
                     <span>Notifications will appear here when sent by admin</span>
                   </div>
@@ -1251,8 +1231,8 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
                             </div>
                             <p>{notification.message}</p>
                             <div className="notification-meta">
-                              <span>📅 {new Date(notification.created_at).toLocaleDateString()}</span>
-                              <span>🏷️ {notification.notification_type}</span>
+                              <span><FaCalendarAlt /> {new Date(notification.created_at).toLocaleDateString()}</span>
+                              <span><FaTag /> {notification.notification_type}</span>
                             </div>
                           </div>
                           <div className="notification-priority">
@@ -1272,9 +1252,8 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
           {/* Community Forum Tab */}
           {activeTab === 'forum' && (
             <div className="forum-content">
-              <h2 className="page-title">💬 Community Forum</h2>
+              <h2 className="page-title"><FaComments /> Community Forum</h2>
 
-              {/* Create New Post */}
               <div className="content-card">
                 <h3 className="card-title">Create New Post</h3>
                 <form onSubmit={handleCreateForumPost} className="form-grid">
@@ -1310,7 +1289,6 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
                 </form>
               </div>
 
-              {/* Search Posts */}
               <div className="content-card">
                 <input
                   type="text"
@@ -1321,12 +1299,11 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
                 />
               </div>
 
-              {/* Forum Posts */}
               <div className="content-card">
                 <h3 className="card-title">Community Posts ({filteredForumPosts.length})</h3>
                 {filteredForumPosts.length === 0 ? (
                   <div className="empty-state">
-                    <div className="empty-icon">💬</div>
+                    <div className="empty-icon"><FaComments /></div>
                     <p>No forum posts found</p>
                     <span>Start a conversation with your neighbors</span>
                   </div>
@@ -1350,7 +1327,7 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
                         <p className="post-content">{post.content}</p>
 
                         <div className="post-footer">
-                          <span>💬 {post.comments_count || 0} comments</span>
+                          <span><FaComments /> {post.comments_count || 0} comments</span>
                           <button className="discussion-btn">
                             View Discussion
                           </button>
@@ -1366,7 +1343,7 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
           {/* Profile Tab */}
           {activeTab === 'profile' && (
             <div className="profile-content">
-              <h2 className="page-title">👤 My Profile</h2>
+              <h2 className="page-title"><FaUser /> My Profile</h2>
 
               <div className="content-card">
                 <div className="profile-header">
@@ -1449,9 +1426,15 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
           )}
         </div>
       </div>
+      {/* Footer */}
+      <footer className="dashboard-footer">
+        <div className="footer-content">
+          <span>Powered by DY Business Solutions</span>
+          <span>Version 1.0.0</span>
+        </div>
+      </footer>
     </div>
   );
 };
 
 export default UserDashboard;
-
