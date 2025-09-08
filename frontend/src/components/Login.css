@@ -1,5 +1,3 @@
-/* Login.css - Modern Design for N-Connect */
-
 :root {
   --primary: #2563eb;
   --primary-dark: #1d4ed8;
@@ -10,13 +8,13 @@
   --text-light: #64748b;
   --bg-light: #f8fafc;
   --bg-white: #ffffff;
-  --error: #ef4444;
-  --success: #10b981;
-  --border: #e5e7eb;
+  --error: #dc2626;
+  --success: #059669;
+  --border: #e2e8f0;
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --radius: 0.75rem;
+  --radius: 0.5rem;
   --transition: all 0.3s ease;
 }
 
@@ -26,57 +24,133 @@
   box-sizing: border-box;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+
 .login-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 50%, #fae8ff 100%);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  position: relative;
-  overflow: hidden;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.login-container::before,
-.login-container::after {
+.login-left-panel {
+  flex: 1;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-left-panel::before {
   content: '';
   position: absolute;
-  border-radius: 50%;
-  filter: blur(40px);
-  opacity: 0.5;
-  z-index: 0;
-}
-
-.login-container::before {
   width: 300px;
   height: 300px;
-  background: var(--primary-light);
-  top: 10%;
-  left: 10%;
-  animation: float 15s infinite ease-in-out;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  top: -150px;
+  left: -150px;
 }
 
-.login-container::after {
-  width: 250px;
-  height: 250px;
-  background: var(--secondary);
-  bottom: 10%;
-  right: 10%;
-  animation: float 18s infinite ease-in-out reverse;
+.login-left-panel::after {
+  content: '';
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  bottom: -100px;
+  right: -100px;
 }
 
-@keyframes float {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25% { transform: translate(20px, 40px) scale(1.1); }
-  50% { transform: translate(-30px, 20px) scale(0.9); }
-  75% { transform: translate(10px, -30px) scale(1.05); }
+.login-branding {
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+  z-index: 1;
+}
+
+.login-logo {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow);
+}
+
+.login-logo i {
+  font-size: 2.5rem;
+  color: white;
+}
+
+.login-branding h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.login-branding p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+}
+
+.features-list {
+  list-style: none;
+  position: relative;
+  z-index: 1;
+}
+
+.features-list li {
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  font-size: 1.1rem;
+}
+
+.features-list i {
+  margin-right: 1rem;
+  background: rgba(255, 255, 255, 0.2);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.login-right-panel {
+  flex: 1;
+  background: var(--bg-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
 }
 
 .login-wrapper {
   width: 100%;
-  max-width: 28rem;
-  z-index: 1;
+  max-width: 400px;
+}
+
+.login-card {
+  background: var(--bg-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  padding: 2.5rem;
+  transition: var(--transition);
+}
+
+.login-card:hover {
+  box-shadow: var(--shadow-lg), 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
 
 .login-header {
@@ -84,64 +158,16 @@
   margin-bottom: 2rem;
 }
 
-.login-logo {
-  width: 5rem;
-  height: 5rem;
-  margin: 0 auto 1.5rem;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--shadow);
-  position: relative;
-  overflow: hidden;
-}
-
-.login-logo::after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(transparent, rgba(255, 255, 255, 0.2));
-  top: 0;
-  left: 0;
-}
-
-.login-logo span {
-  font-size: 2rem;
-  font-weight: 800;
-  color: white;
-  z-index: 1;
-}
-
 .login-header h2 {
-  font-size: 1.875rem;
-  font-weight: 800;
+  font-size: 1.5rem;
+  font-weight: 700;
   color: var(--text);
   margin-bottom: 0.5rem;
-  letter-spacing: -0.025em;
 }
 
 .login-header p {
   color: var(--text-light);
   font-size: 0.95rem;
-}
-
-.login-card {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-lg);
-  padding: 2.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  transform-style: preserve-3d;
-  transition: var(--transition);
-}
-
-.login-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-lg), 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
 
 .login-tabs {
@@ -166,6 +192,10 @@
   color: var(--text-light);
   position: relative;
   z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .login-tab.active {
@@ -191,8 +221,8 @@
 
 .login-error {
   padding: 0.875rem;
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.2);
+  background: rgba(220, 38, 38, 0.1);
+  border: 1px solid rgba(220, 38, 38, 0.2);
   color: var(--error);
   border-radius: var(--radius);
   font-size: 0.875rem;
@@ -221,16 +251,22 @@
   position: relative;
 }
 
-.form-group label {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--text);
-  margin-bottom: 0.5rem;
+.input-with-icon {
+  position: relative;
 }
 
-.form-group input {
+.input-with-icon i {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-light);
+  z-index: 2;
+}
+
+.input-with-icon input {
   width: 100%;
-  padding: 1rem;
+  padding: 1rem 1rem 1rem 2.75rem;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   font-size: 1rem;
@@ -240,15 +276,15 @@
   z-index: 1;
 }
 
-.form-group input:focus {
+.input-with-icon input:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
 }
 
 .login-button {
   width: 100%;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  background: var(--primary);
   color: white;
   padding: 1rem;
   border: none;
@@ -260,6 +296,10 @@
   position: relative;
   overflow: hidden;
   margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .login-button::before {
@@ -274,6 +314,7 @@
 }
 
 .login-button:hover {
+  background: var(--primary-dark);
   transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
 }
@@ -296,17 +337,53 @@
   left: -100%;
 }
 
+.login-footer {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  color: var(--text-light);
+  font-size: 0.875rem;
+}
+
+.login-footer a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-footer a:hover {
+  text-decoration: underline;
+}
+
+.developed-by {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+}
+
+.developed-by i {
+  color: var(--error);
+}
+
 /* Responsive adjustments */
-@media (max-width: 640px) {
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+  }
+  
+  .login-left-panel {
+    padding: 2rem;
+  }
+  
+  .login-right-panel {
+    padding: 2rem;
+  }
+  
   .login-card {
-    padding: 2rem 1.5rem;
+    padding: 2rem;
   }
   
-  .login-header h2 {
-    font-size: 1.5rem;
-  }
-  
-  .login-header p {
-    font-size: 0.875rem;
+  .features-list li {
+    font-size: 1rem;
   }
 }
