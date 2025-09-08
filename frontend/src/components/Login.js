@@ -28,7 +28,7 @@ const Login = ({ onLogin }) => {
         {
           username: formData.username,
           email: formData.email,
-          password: formData.password, // Changed from password1
+          password: formData.password,
           password2: formData.password2
         };
 
@@ -41,21 +41,17 @@ const Login = ({ onLogin }) => {
       const data = await response.json();
 
       if (response.ok) {
-        // ✅ FIX: Pass both the auth token (data.key) AND the username from the form
         if (isLogin) {
             onLogin(data.key, formData.username);
         } else {
-            // After registration, you could automatically log them in or show a success message
             setIsLogin(true);
             alert("Registration successful! Please log in.");
         }
       } else {
-        // Handle both dictionary and list errors from Django REST Framework
         let errorMessage = 'Authentication failed. Please check your details.';
         if (typeof data === 'object' && data !== null) {
             const errorKeys = Object.keys(data);
             if (errorKeys.length > 0) {
-                // Join all error messages
                 errorMessage = errorKeys.map(key => `${key}: ${data[key].join(', ')}`).join('; ');
             }
         }
@@ -70,90 +66,133 @@ const Login = ({ onLogin }) => {
 
   return (
     <div className="login-container">
-      <div className="login-wrapper">
-        <div className="login-header">
+      <div className="login-left-panel">
+        <div className="login-branding">
           <div className="login-logo">
-            <span>N</span>
+            <i className="fas fa-building"></i>
           </div>
-          <h2>N-Connect</h2>
-          <p></p>
+          <h1>N-Connect</h1>
+          <p>Premium Society Management Solution</p>
         </div>
 
-        <div className="login-card">
-          <div className="login-tabs">
-            <button
-              onClick={() => setIsLogin(true)}
-              className={`login-tab ${isLogin ? 'active' : ''}`}
-            >
-              Sign In
-            </button>
-            <button
-              onClick={() => setIsLogin(false)}
-              className={`login-tab ${!isLogin ? 'active' : ''}`}
-            >
-              Sign Up
-            </button>
+        <ul className="features-list">
+          <li><i className="fas fa-shield-alt"></i> Secure community management</li>
+          <li><i className="fas fa-users"></i> Connect with your neighbors</li>
+          <li><i className="fas fa-bolt"></i> Quick issue resolution</li>
+        </ul>
+      </div>
+
+      <div className="login-right-panel">
+        <div className="login-wrapper">
+          <div className="login-card">
+            <div className="login-header">
+              <h2>Member Login</h2>
+              <p>Access your society dashboard</p>
+            </div>
+
+            <div className="login-tabs">
+              <button
+                onClick={() => setIsLogin(true)}
+                className={`login-tab ${isLogin ? 'active' : ''}`}
+              >
+                <i className="fas fa-sign-in-alt"></i> Sign In
+              </button>
+              <button
+                onClick={() => setIsLogin(false)}
+                className={`login-tab ${!isLogin ? 'active' : ''}`}
+              >
+                <i className="fas fa-user-plus"></i> Sign Up
+              </button>
+            </div>
+
+            {error && (
+              <div className="login-error">
+                <i className="fas fa-exclamation-circle"></i>
+                {error}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="login-form">
+              <div className="form-group">
+                <div className="input-with-icon">
+                  <i className="fas fa-user"></i>
+                  <input
+                    type="text"
+                    placeholder="Enter your username"
+                    value={formData.username}
+                    onChange={(e) => setFormData({...formData, username: e.target.value})}
+                    required
+                  />
+                </div>
+              </div>
+
+              {!isLogin && (
+                <div className="form-group">
+                  <div className="input-with-icon">
+                    <i className="fas fa-envelope"></i>
+                    <input
+                      type="email"
+                      placeholder="Enter your email"
+                      value={formData.email}
+                      onChange={(e) => setFormData({...formData, email: e.target.value})}
+                      required
+                    />
+                  </div>
+                </div>
+              )}
+
+              <div className="form-group">
+                <div className="input-with-icon">
+                  <i className="fas fa-lock"></i>
+                  <input
+                    type="password"
+                    placeholder="Enter your password"
+                    value={formData.password}
+                    onChange={(e) => setFormData({...formData, password: e.target.value})}
+                    required
+                  />
+                </div>
+              </div>
+
+              {!isLogin && (
+                <div className="form-group">
+                  <div className="input-with-icon">
+                    <i className="fas fa-lock"></i>
+                    <input
+                      type="password"
+                      placeholder="Confirm your password"
+                      value={formData.password2}
+                      onChange={(e) => setFormData({...formData, password2: e.target.value})}
+                      required
+                    />
+                  </div>
+                </div>
+              )}
+
+              <button type="submit" disabled={loading} className="login-button">
+                {loading ? (
+                  <>
+                    <i className="fas fa-spinner fa-spin"></i> Please wait...
+                  </>
+                ) : isLogin ? (
+                  <>
+                    <i className="fas fa-sign-in-alt"></i> Login to Dashboard
+                  </>
+                ) : (
+                  <>
+                    <i className="fas fa-user-plus"></i> Create Account
+                  </>
+                )}
+              </button>
+            </form>
+
+            <div className="login-footer">
+              <p>New tenant? <a href="#">Register here</a></p>
+              <p className="developed-by">
+                Made with <i className="fas fa-heart"></i> by Prathmesh | Powered by <a href="https://dybusiness-solutions.com/" target="_blank" rel="noopener noreferrer">DY Business solution</a>
+              </p>
+            </div>
           </div>
-
-          {error && (
-            <div className="login-error">
-              {error}
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="login-form">
-            <div className="form-group">
-              <label>Username</label>
-              <input
-                type="text"
-                placeholder="Enter your username"
-                value={formData.username}
-                onChange={(e) => setFormData({...formData, username: e.target.value})}
-                required
-              />
-            </div>
-
-            {!isLogin && (
-              <div className="form-group">
-                <label>Email</label>
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  value={formData.email}
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
-                  required
-                />
-              </div>
-            )}
-
-            <div className="form-group">
-              <label>Password</label>
-              <input
-                type="password"
-                placeholder="Enter your password"
-                value={formData.password}
-                onChange={(e) => setFormData({...formData, password: e.target.value})}
-                required
-              />
-            </div>
-
-            {!isLogin && (
-              <div className="form-group">
-                <label>Confirm Password</label>
-                <input
-                  type="password"
-                  placeholder="Confirm your password"
-                  value={formData.password2}
-                  onChange={(e) => setFormData({...formData, password2: e.target.value})}
-                  required
-                />
-              </div>
-            )}
-
-            <button type="submit" disabled={loading} className="login-button">
-              {loading ? 'Please wait...' : (isLogin ? 'Sign In' : 'Sign Up')}
-            </button>
-          </form>
         </div>
       </div>
     </div>
