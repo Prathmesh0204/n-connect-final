@@ -236,6 +236,8 @@
   font-size: 1rem;
   transition: var(--transition);
   background: var(--bg-white);
+  position: relative;
+  z-index: 1;
 }
 
 .form-group input:focus {
