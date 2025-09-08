@@ -1,13 +1,14 @@
 /* Login.css - Modern Design for N-Connect */
 
 :root {
-  --primary: #6366f1;
-  --primary-dark: #4f46e5;
-  --primary-light: #818cf8;
-  --secondary: #f472b6;
-  --text: #1f2937;
-  --text-light: #6b7280;
-  --bg-light: #f9fafb;
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --primary-light: #3b82f6;
+  --secondary: #0e7490;
+  --accent: #f97316;
+  --text: #1e293b;
+  --text-light: #64748b;
+  --bg-light: #f8fafc;
   --bg-white: #ffffff;
   --error: #ef4444;
   --success: #10b981;
