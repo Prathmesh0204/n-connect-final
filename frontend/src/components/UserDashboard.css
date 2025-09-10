@@ -1,4 +1,4 @@
-/* UserDashboard.css (version 1.1.0 - Merged) */
+/* UserDashboard.css (version 1.1.1 - Repaired) */
 :root {
   --primary: #3a57e8;
   --primary-dark: #2a46d8;
@@ -19,7 +19,7 @@
   --radius: 0.75rem;
   --radius-sm: 0.5rem;
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --sidebar-width: 280px; /* Restored from v1.1.0 for a more spacious feel */
+  --sidebar-width: 280px;
   --header-height: 70px;
 }
 
@@ -34,16 +34,16 @@ body,
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg-light); /* Ensure body has a background */
 }
 
 .user-dashboard {
   min-height: 100vh;
-  background: var(--bg-light);
   position: relative;
   overflow-x: hidden;
 }
 
-/* Header Styles (Merged) */
+/* Header Styles */
 .user-header {
   position: fixed;
   top: 0;
@@ -71,7 +71,6 @@ body,
   gap: 1rem;
 }
 
-/* NEW: Pure CSS hamburger from v2.0.0 */
 .menu-toggle {
   display: none;
   flex-direction: column;
@@ -166,7 +165,6 @@ body,
   font-weight: 700;
 }
 
-/* Restored from v1.1.0 for richer UI */
 .user-badge {
   background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
   color: white;
@@ -180,7 +178,7 @@ body,
   gap: 0.5rem;
 }
 
-.logout-btn { /* Style for header logout, kept for flexibility but unused in merged JS */
+.logout-btn {
   background: rgba(220, 53, 69, 0.1);
   color: var(--error);
   border: 1px solid rgba(220, 53, 69, 0.2);
@@ -207,7 +205,7 @@ body,
   padding-bottom: 60px; /* Space for footer */
 }
 
-/* Sidebar (Merged Structure from v2.0.0 with styles from v1.1.0) */
+/* Sidebar */
 .user-sidebar {
   width: var(--sidebar-width);
   background: var(--bg-white);
@@ -219,11 +217,11 @@ body,
   z-index: 90;
   transition: transform 0.3s ease;
   display: flex;
-  flex-direction: column; /* Key change for footer */
+  flex-direction: column;
 }
 
 .sidebar-content {
-  flex-grow: 1; /* Pushes footer down */
+  flex-grow: 1;
   overflow-y: auto;
   padding: 1.5rem 1rem;
 }
@@ -237,7 +235,7 @@ body,
 .sidebar-item {
   display: flex;
   align-items: center;
-  gap: 0.75rem; /* For icon */
+  gap: 0.75rem;
   padding: 0.875rem 1rem;
   background: transparent;
   border: none;
@@ -287,10 +285,9 @@ body,
   font-weight: 700;
 }
 
-/* NEW: Sidebar footer for logout button from v2.0.0 */
 .sidebar-footer {
   padding: 1.5rem 1rem;
-  margin-top: auto; /* Pushes it to the bottom */
+  margin-top: auto;
   border-top: 1px solid var(--border);
 }
 
@@ -343,8 +340,6 @@ body,
   gap: 0.75rem;
 }
 
-/* --- ALL DETAILED COMPONENT STYLES RESTORED FROM v1.1.0 --- */
-
 .dashboard-content, .flats-content, .complaints-content, .bills-content,
 .vehicles-content, .camera-requests-content, .notifications-content, .profile-content {
   display: flex;
@@ -352,9 +347,11 @@ body,
   gap: 1.5rem;
 }
 
+/* --- REPAIRED GRID --- */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  /* This allows columns to wrap nicely without being too narrow */
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1.25rem;
 }
 
@@ -423,7 +420,7 @@ body,
 
 .dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 1.5rem;
 }
 
@@ -434,7 +431,7 @@ body,
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
   transition: var(--transition);
-  margin-bottom: 1.5rem;
+  margin-bottom: 0; /* Removed margin as gap is handled by parent */
 }
 
 .dashboard-card:hover, .content-card:hover {
@@ -452,9 +449,11 @@ body,
   gap: 0.5rem;
 }
 
+/* --- REPAIRED GRID --- */
 .quick-actions {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  /* This ensures at least two columns if there's space */
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 1rem;
 }
 
@@ -473,6 +472,7 @@ body,
   transition: var(--transition);
   text-align: center;
   width: 100%;
+  font-size: 0.875rem; /* Slightly smaller text for better fit */
 }
 
 .quick-action-btn:hover {
@@ -573,7 +573,7 @@ body,
   font-size: 1rem;
 }
 
-/* Comprehensive Status Badge Styles from v1.1.0 */
+/* Status & Priority Badges */
 .status-badge, .priority-badge {
   padding: 0.375rem 0.875rem;
   border-radius: 1rem;
@@ -650,9 +650,6 @@ body,
   transform: translateY(-2px);
   box-shadow: var(--shadow);
 }
-/* ... [All specific item styles from v1.1.0 would be here] ... */
-/* For brevity, I am showing the pattern. A full merge would include all specific styles for bills, flats, vehicles, etc. The logic from v1.1.0 for these components is complete and can be used directly. */
-
 
 /* Profile Styles */
 .profile-header {
@@ -705,8 +702,7 @@ body,
 ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--primary-dark); }
 
-
-/* Responsive Design (Merged) */
+/* Responsive Design */
 @media (max-width: 1024px) {
   :root {
     --sidebar-width: 260px;
@@ -725,8 +721,9 @@ body,
   .user-sidebar.open {
     transform: translateX(0);
   }
-  .sidebar-overlay {
+  .sidebar-overlay.open {
     display: block;
+    opacity: 1;
   }
   .user-main, .dashboard-footer {
     margin-left: 0;
@@ -746,11 +743,12 @@ body,
   .page-title {
     font-size: 1.5rem;
   }
-  .quick-actions, .stats-grid, .form-grid, .dashboard-grid {
-    grid-template-columns: 1fr;
-  }
   .header-info { display: none; }
   .user-badge {
       padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
+  }
+  .user-badge span {
+      display: none; /* Hide username text on very small screens */
   }
 }
