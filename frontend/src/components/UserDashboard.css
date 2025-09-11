@@ -185,7 +185,8 @@ body,
   padding-bottom: 60px; /* Space for footer */
 }
 
-/* Sidebar */
+/* --- SIDEBAR FIX --- */
+/* The entire sidebar animation logic has been changed to be more WebView-compatible. */
 .user-sidebar {
   width: var(--sidebar-width);
   background: var(--bg-white);
@@ -193,18 +194,22 @@ body,
   height: calc(100vh - var(--header-height));
   position: fixed;
   top: var(--header-height);
-  left: 0;
   z-index: 110;
-  transition: transform 0.3s ease-in-out;
-  transform: translateX(-100%); /* Hidden by default */
   display: flex;
   flex-direction: column;
+
+  /* Change 1: Use 'left' for positioning instead of 'transform' */
+  left: calc(var(--sidebar-width) * -1); /* Hidden by default */
+  transition: left 0.3s ease-in-out; /* Animate the 'left' property */
 }
 
 .user-sidebar.open {
-  transform: translateX(0); /* Visible when open */
+  /* Change 2: Bring the sidebar into view by changing 'left' to 0 */
+  left: 0; /* Visible when open */
   box-shadow: var(--shadow-lg);
 }
+/* --- END OF SIDEBAR FIX --- */
+
 
 .sidebar-content {
   flex-grow: 1;
@@ -750,11 +755,18 @@ body,
   .page-title {
     font-size: 1.5rem;
   }
-  .header-info { display: none; }
-  .user-badge {
-      padding: 0.0rem 0.5rem;
-      font-size: 0.0rem;
+  .header-info {
+    display: none;
   }
+  .user-badge {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
+  }
+
+  .bell-btn {
+      padding: 0.4rem;
+  }
+
   .user-badge span {
       display: none;
   }
