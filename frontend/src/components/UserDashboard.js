@@ -1,4 +1,3 @@
-// UserDashboard.js (version 1.1.0 - Merged)
 import React, { useState, useEffect, useCallback } from 'react';
 import API_CONFIG from '../config/apiConfig';
 import {
@@ -7,12 +6,11 @@ import {
   FaBed, FaBath, FaRulerCombined, FaUserCircle, FaUsers,
   FaExclamationCircle, FaClock, FaCheckCircle, FaTimesCircle, FaLink,
   FaPaperPlane, FaCreditCard, FaRocket,
-  FaCog, FaInfoCircle, FaTag, FaCalendarAlt, FaBars
+  FaCog, FaInfoCircle, FaTag, FaCalendarAlt
 } from 'react-icons/fa';
-import './UserDashboard.css';
+import './UserDashboard.css'; // Your updated CSS file
 
 const UserDashboard = ({ token, username, userStatus, onLogout }) => {
-  // Get initial tab from URL hash for better UX (back button support, sharable links)
   const getTabFromHash = () => window.location.hash.replace('#', '') || 'dashboard';
 
   const [activeTab, setActiveTab] = useState(getTabFromHash());
@@ -23,6 +21,8 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
   const [cameraRequests, setCameraRequests] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  // Sidebar now starts closed by default
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Form states
@@ -31,8 +31,6 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
   const [cameraRequestForm, setCameraRequestForm] = useState({ reason: '', requested_date: '', duration_hours: 1, flat_id: '' });
   const [profileForm, setProfileForm] = useState({ first_name: userStatus?.first_name || '', last_name: userStatus?.last_name || '', email: userStatus?.email || '', phone: '', emergency_contact: '', emergency_contact_name: '' });
   const [searchTerm, setSearchTerm] = useState('');
-
-  // --- NEW: Refactored & Optimized Logic from v2.0.0 ---
 
   const loadActiveTabData = useCallback(() => {
     const currentTab = getTabFromHash();
@@ -50,7 +48,6 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
       case 'camera-requests': loadCameraRequests(); break;
       case 'notifications': loadNotifications(); break;
       default:
-        // Redirect to dashboard if hash is invalid
         if (currentTab !== 'dashboard') {
           window.location.hash = 'dashboard';
         }
@@ -58,27 +55,21 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
     }
   }, [token, username, userStatus]);
 
-  // Effect for handling browser navigation (back/forward buttons)
   useEffect(() => {
-    const handleHashChange = () => {
-      setActiveTab(getTabFromHash());
-    };
+    const handleHashChange = () => setActiveTab(getTabFromHash());
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  // Effect to load data when the active tab (from hash) changes
   useEffect(() => {
     loadActiveTabData();
   }, [activeTab, loadActiveTabData]);
 
-  // Auto-refresh interval
   useEffect(() => {
-    const interval = setInterval(loadActiveTabData, 30000); // 30 seconds
+    const interval = setInterval(loadActiveTabData, 30000); // Auto-refresh data
     return () => clearInterval(interval);
   }, [loadActiveTabData]);
 
-  // Set default flat ID in forms once flats are loaded
   useEffect(() => {
     if (flats.length > 0) {
       setComplaintForm(prev => ({ ...prev, flat_id: prev.flat_id || flats[0].id }));
@@ -86,7 +77,6 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
     }
   }, [flats]);
 
-  // Generic helper for fetching data (GET requests)
   const fetchData = async (url, setter) => {
     try {
       const response = await fetch(url, { headers: API_CONFIG.getHeaders(token) });
@@ -97,7 +87,6 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
     }
   };
 
-  // API call functions using the generic fetcher
   const loadFlats = () => fetchData(`${API_CONFIG.BASE_URL}/flats/?resident=${userStatus.id}`, setFlats);
   const loadVehicles = () => fetchData(`${API_CONFIG.BASE_URL}/vehicles/?resident__username=${username}`, setVehicles);
   const loadComplaints = () => fetchData(`${API_CONFIG.BASE_URL}/complaints/?author__username=${username}`, setComplaints);
@@ -105,11 +94,10 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
   const loadCameraRequests = () => fetchData(`${API_CONFIG.BASE_URL}/camera-requests/?requester__username=${username}`, setCameraRequests);
   const loadNotifications = () => fetchData(`${API_CONFIG.BASE_URL}/notifications/`, setNotifications);
 
-  // Generic helper for submitting form data (POST/PUT/PATCH)
   const postFormData = async (url, formData, onSuccess, method = 'POST') => {
     setLoading(true);
     const headers = API_CONFIG.getHeaders(token);
-    delete headers['Content-Type']; // Let browser set Content-Type for FormData
+    delete headers['Content-Type'];
     try {
       const response = await fetch(url, { method, headers, body: formData });
       if (response.ok) {
@@ -125,7 +113,6 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
     }
   };
 
-  // Form submission handlers using the generic poster
   const handleSubmitComplaint = (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -190,15 +177,11 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
     }
   };
 
-  // --- End of Refactored Logic Section ---
-
-  // Filtered data (using the more comprehensive search from v1.1.0)
   const filteredComplaints = complaints.filter(c => c.title.toLowerCase().includes(searchTerm.toLowerCase()) || c.category.toLowerCase().includes(searchTerm.toLowerCase()));
   const filteredBills = bills.filter(b => b.bill_type.toLowerCase().includes(searchTerm.toLowerCase()));
   const filteredNotifications = notifications.filter(n => n.title.toLowerCase().includes(searchTerm.toLowerCase()) || n.message.toLowerCase().includes(searchTerm.toLowerCase()));
   const filteredVehicles = vehicles.filter(v => v.vehicle_number.toLowerCase().includes(searchTerm.toLowerCase()));
 
-  // Dashboard stats
   const stats = {
     total_complaints: complaints.length,
     pending_complaints: complaints.filter(c => c.status !== 'resolved').length,
@@ -208,20 +191,22 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
     unread_notifications: notifications.filter(n => !n.is_read).length
   };
 
-  // Tab navigation handler that updates URL hash
   const handleTabClick = (tabId) => {
     window.location.hash = tabId;
-    setSidebarOpen(false);
+    if (window.innerWidth <= 768) {
+      setSidebarOpen(false);
+    }
   };
 
   return (
-    <div className="user-dashboard">
-      {/* Header from v1.1.0 */}
+    <div className={`user-dashboard ${sidebarOpen ? 'sidebar-is-open' : ''}`}>
       <header className="user-header">
         <div className="header-content">
           <div className="header-left">
-            <button className="menu-toggle" onClick={() => setSidebarOpen(!sidebarOpen)}>
-              <FaBars />
+            <button className="menu-toggle" onClick={() => setSidebarOpen(!sidebarOpen)} aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
             </button>
             <div className="user-logo"><span>NC</span></div>
             <div className="header-info">
@@ -238,14 +223,12 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
                 )}
               </button>
             </div>
-            <span className="user-badge"><FaUserCircle /> {username}</span>
-            <button onClick={onLogout} className="logout-btn"><FaSignOutAlt /> Logout</button>
+            <span className="user-badge"><FaUserCircle /> <span>{username}</span></span>
           </div>
         </div>
       </header>
 
       <div className="user-layout">
-        {/* Sidebar from v1.1.0, adapted for hash navigation */}
         <div className={`user-sidebar ${sidebarOpen ? 'open' : ''}`}>
           <div className="sidebar-content">
             <div className="sidebar-menu">
@@ -261,7 +244,7 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
               ].map(tab => (
                 <button
                   key={tab.id}
-                  onClick={() => handleTabClick(tab.id)} // NEW: Use hash navigation handler
+                  onClick={() => handleTabClick(tab.id)}
                   className={`sidebar-item ${activeTab === tab.id ? 'active' : ''}`}
                 >
                   <span className="sidebar-icon">{tab.icon}</span>
@@ -273,11 +256,15 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
               ))}
             </div>
           </div>
+          <div className="sidebar-footer">
+               <button onClick={onLogout} className="sidebar-logout-btn">
+                   <FaSignOutAlt /> Logout
+               </button>
+           </div>
         </div>
 
-        {sidebarOpen && <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)}></div>}
+        <div className={`sidebar-overlay ${sidebarOpen ? 'open' : ''}`} onClick={() => setSidebarOpen(false)}></div>
 
-        {/* --- Main Content: All complete JSX from v1.1.0 is restored below --- */}
         <main className="user-main">
           {activeTab === 'dashboard' && (
             <div className="dashboard-content">
@@ -768,7 +755,7 @@ const UserDashboard = ({ token, username, userStatus, onLogout }) => {
       <footer className="dashboard-footer">
         <div className="footer-content">
           <span>Powered by DY Business Solutions</span>
-          <span>Version 1.1.0</span>
+          <span>Version 1.1.1</span>
         </div>
       </footer>
     </div>
