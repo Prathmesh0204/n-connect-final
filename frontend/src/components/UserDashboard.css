@@ -185,32 +185,35 @@ body,
   padding-bottom: 60px; /* Space for footer */
 }
 
-/* --- FINAL SIDEBAR FIX: NO ANIMATION --- */
-/* This is the definitive fix. We are removing the slide animation entirely,
-   as it is the source of the rendering bug in Android's WebView.
-   The sidebar will now appear and disappear instantly, which is a clean
-   and reliable solution. */
+/* --- FINAL SIDEBAR FIX V2: ADDRESSING 'COMPRESSED' BUG --- */
+/* This version uses a more robust method to prevent the sidebar from being compressed
+   by the WebView's buggy layout renderer. */
 .user-sidebar {
+  /* Explicitly set width and prevent it from shrinking */
   width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
+  flex-shrink: 0;
+
   background: var(--bg-white);
   border-right: 1px solid var(--border);
   height: calc(100vh - var(--header-height));
   position: fixed;
   top: var(--header-height);
+  left: 0; /* Anchor to the left edge */
   z-index: 110;
   display: flex;
   flex-direction: column;
 
-  /* Position the sidebar off-screen by default. */
-  left: calc(var(--sidebar-width) * -1);
+  /* Use transform for positioning (more reliable than 'left') */
+  transform: translateX(-100%);
 
-  /* CRITICAL CHANGE: The 'transition' property is removed to prevent the animation. */
-  /* transition: left 0.3s ease-in-out; */
+  /* Keep animation disabled to prevent glitches */
+  /* transition: transform 0.3s ease-in-out; */
 }
 
 .user-sidebar.open {
-  /* When the 'open' class is added, instantly move the sidebar into view. */
-  left: 0;
+  /* Bring the sidebar into view instantly */
+  transform: translateX(0);
   box-shadow: var(--shadow-lg);
 }
 /* --- END OF FINAL SIDEBAR FIX --- */
